@@ -29,5 +29,5 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:${GITHUB_SHA::7}
-            ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:${GITHUB_SHA::7}
+            ${{ secrets.DOCKER_USERNAME }}/frontend-app:latest
+            ${{ secrets.DOCKER_USERNAME }}/frontend-app:${{ github.sha }}
