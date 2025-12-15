@@ -1,0 +1,74 @@
+# Install Docker
+sudo yum update -y
+sudo amazon-linux-extras install docker -y
+sudo service docker start
+sudo usermod -aG docker ec2-user
+sudo systemctl enable docker
+docker --version
+
+# Install kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+
+# Install Java 17 Amazon Corretto
+sudo yum install -y java-17-amazon-corretto-devel
+java -version
+
+sudo systemctl enable docker
+
+
+#backend service verification commands
+sudo lsof -i :8080
+sudo netstat -tulnp | grep 8080
+curl -I http://localhost:8080
+
+
+#postgress installation and connection commands
+docker logs postgres
+psql -h localhost -U admin -d mydb
+docker exec -it postgres psql -U admin -d mydb
+ss -ltnp | grep 5432
+
+
+#docker compose installation
+# 1️⃣ Download the latest stable Docker Compose binary
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+-o /usr/local/bin/docker-compose
+
+# 2️⃣ Make it executable
+sudo chmod +x /usr/local/bin/docker-compose
+
+# 3️⃣ Verify installation
+docker-compose version
+
+
+
+docker compose build frontend --no-cache
+docker compose up -d frontend
+
+docker compose up -d --build
+
+
+I'm able to access backend updating environment.development.ts & environment.production.ts 
+files with BACKEND_URL as http://<ec2-ip>:8080 while I was running docker compose on ec2 instance.
+
+update environment.development.ts & environment.production.ts files in frontend with below value
+13.218.87.21 is my ec2 public ip
+
+
+environment.development.ts :- 
+export const environment =
+{
+    production: false,
+    API_URL: 'http://13.218.87.21:8080/api/',
+};
+
+
+environment.prod.ts:- 
+export const environment =
+{
+    production: false,
+    API_URL: 'http://13.218.87.21:8080/api/',
+};
+
