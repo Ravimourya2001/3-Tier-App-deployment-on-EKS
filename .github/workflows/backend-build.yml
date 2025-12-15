@@ -33,4 +33,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/backend-app:latest
-            ${{ secrets.DOCKER_USERNAME }}/backend-app:${env.SHORT_SHA}
+            ${{ secrets.DOCKER_USERNAME }}/backend-app:${{ env.SHORT_SHA }}
